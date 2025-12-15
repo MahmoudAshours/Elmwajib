@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Lotus Linotype';
+    src: url('../fonts/subset-Lotus-Light.eot');
+    src: url('../fonts/subset-Lotus-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/subset-Lotus-Light.woff2') format('woff2'),
+    url('../fonts/subset-Lotus-Light.woff') format('woff'),
+    url('../fonts/subset-Lotus-Light.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: fallback;
+}
+
+.fa-arrows-rotate:before {
+    content: "\f021"
+}

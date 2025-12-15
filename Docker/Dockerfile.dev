@@ -1,0 +1,44 @@
+FROM php:8.4-fpm
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    curl \
+    git \
+    libzip-dev \
+    libcurl4-openssl-dev \
+    gnupg \
+    ca-certificates \
+    libmagickwand-dev \
+    libmagickcore-dev \
+    imagemagick \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath gd calendar \
+    && pecl install redis imagick \
+    && docker-php-ext-enable redis imagick \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+ 
+WORKDIR /var/www/html
+
+RUN git config --global --add safe.directory /var/www/html
+
+RUN echo "memory_limit = 1192M" >> /usr/local/etc/php/conf.d/memory.ini
+
+COPY Docker/entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
