@@ -70,6 +70,8 @@ RUN mkdir -p storage/framework/cache \
     bootstrap/cache \
     && chown -R www-data:www-data storage/ bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
+
+
 FROM node:18 AS frontend
 ENV NODE_OPTIONS=--openssl-legacy-provider
 WORKDIR /var/www/elmwajib
@@ -78,7 +80,6 @@ COPY package.json package-lock.json webpack.mix.js ./
 RUN npm install
 
 COPY resources ./resources
-COPY public ./public
 
 RUN npm run prod
 
