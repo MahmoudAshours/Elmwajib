@@ -75,7 +75,7 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 WORKDIR /var/www/elmwajib
 
 COPY package.json package-lock.json webpack.mix.js ./
-RUN npm ci
+RUN npm install
 
 COPY resources ./resources
 COPY public ./public
