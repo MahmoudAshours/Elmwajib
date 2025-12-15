@@ -1,7 +1,7 @@
 # ---------------------------
 # Stage 1: PHP base
 # ---------------------------
-FROM php:8.3-fpm-bullseye AS base
+FROM php:8.4-fpm-bullseye AS base
 
 # Install system dependencies & PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -53,7 +53,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # ---------------------------
 FROM base AS vendor
 
-WORKDIR /var/www/dawa_center
+WORKDIR /var/www/elmwajib
 
 
 COPY . .
@@ -72,7 +72,7 @@ RUN mkdir -p storage/framework/cache \
     && chmod -R 775 storage bootstrap/cache
 FROM node:18 AS frontend
 ENV NODE_OPTIONS=--openssl-legacy-provider
-WORKDIR /var/www/dawa_center
+WORKDIR /var/www/elmwajib
 
 COPY package.json package-lock.json webpack.mix.js ./
 RUN npm ci
@@ -88,18 +88,18 @@ RUN npm run prod
 # ---------------------------
 FROM base AS prod
 
-WORKDIR /var/www/dawa_center
+WORKDIR /var/www/elmwajib
 
 # Set PHP memory limit
 RUN echo "memory_limit = 1024M" > /usr/local/etc/php/conf.d/memory.ini
 
 # Copy vendor + application
-COPY --from=vendor /var/www/dawa_center /var/www/dawa_center
+COPY --from=vendor /var/www/elmwajib /var/www/elmwajib
 
-COPY --from=frontend /var/www/dawa_center/public /var/www/dawa_center/public
+COPY --from=frontend /var/www/elmwajib/public /var/www/elmwajib/public
 
 # Fix permissions
-RUN chown -R www-data:www-data /var/www/dawa_center bootstrap/cache && \
+RUN chown -R www-data:www-data /var/www/elmwajib bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache
 
 # Entrypoint
