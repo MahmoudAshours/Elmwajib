@@ -1,0 +1,17 @@
+/storage/*.key
+/storage/*
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.idea/dbnavigator.xml
+.idea/makeen.iml
+.idea/php.xml
+.idea/*
+dump.rdb
+.DS_Store
+/resources/elmwajib-credentials.json
